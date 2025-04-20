@@ -1,5 +1,6 @@
 import React from "react";
 import SearchBar from "./SearchBar";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -21,15 +22,15 @@ const Hero = () => {
                 <SearchBar />
                 <ul className="flex flex-wrap items-center mt-6">
                   <li>
-                    <a
+                    <Link
                       href="/#"
                       className=" inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-center text-base font-medium text-white hover:bg-blue-700 lg:px-7"
                     >
                       Get Started
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/#"
                       className="inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-gray-50 hover:text-blue-500 dark:text-white"
                     >
@@ -63,7 +64,7 @@ const Hero = () => {
                         </svg>
                       </span>
                       Download App
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -124,12 +125,12 @@ const Hero = () => {
 
 export default Hero;
 
-const SingleImage = ({ href, imgSrc }: { href: string; imgSrc: string }) => {
-  return (
-    <>
-      <a href={href} className="flex w-full items-center justify-center">
-        <img src={imgSrc} alt="brand image" className="h-10 w-full" />
-      </a>
-    </>
-  );
-};
+// const SingleImage = ({ href, imgSrc }: { href: string; imgSrc: string }) => {
+//   return (
+//     <>
+//       <a href={href} className="flex w-full items-center justify-center">
+//         <img src={imgSrc} alt="brand image" className="h-10 w-full" />
+//       </a>
+//     </>
+//   );
+// };

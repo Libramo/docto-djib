@@ -1,8 +1,16 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+import TransitionalText from "./TransitionalText";
 
 const Hero = () => {
+  const TEXTS = [
+    "gynécologue",
+    "cardiologue",
+    "urologue",
+    "generaliste",
+    "spécialiste",
+  ];
   return (
     <div className="bg-blue-950">
       <div className="relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] max-w-6xl mx-auto">
@@ -10,8 +18,13 @@ const Hero = () => {
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 lg:w-5/12">
               <div className="hero-content">
-                <h1 className="mb-5 text-4xl font-bold !leading-[1.208] text-gray-50 dark:text-white sm:text-[42px] lg:text-[40px] xl:text-5xl">
-                  Kickstart Startup Website with TailGrids
+                <h1 className="mb-5 text-4xl font-bold !leading-[1.208] text-gray-50 dark:text-white sm:text-[42px] lg:text-[40px] xl:text-4xl">
+                  <span>
+                    Prenez rendez-vous <br />
+                  </span>
+                  avec votre{" "}
+                  <TransitionalText className="text-blue-500" TEXTS={TEXTS} />
+                  <span>dès aujourd hui</span>
                 </h1>
                 <p className="mb-8 max-w-[480px] text-base text-gray-100 dark:text-dark-6">
                   With TailGrids, business and students thrive together.
@@ -26,10 +39,10 @@ const Hero = () => {
                       href="/#"
                       className=" inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-center text-base font-medium text-white hover:bg-blue-700 lg:px-7"
                     >
-                      Get Started
+                      Prendre rendez-vous
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       href="/#"
                       className="inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-gray-50 hover:text-blue-500 dark:text-white"
@@ -65,8 +78,19 @@ const Hero = () => {
                       </span>
                       Download App
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
+
+                <div className="py-4 flex gap-7">
+                  <div className="text-gray-50 flex flex-col items-center justify-center border-1 border-blue-400 rounded-md p-2">
+                    <span className="text-2xl font-bold">30</span>
+                    <span className="text-sm"> Specialistes actifs</span>
+                  </div>
+                  <div className="text-gray-50 border-1 border-blue-400 rounded-md p-2 flex flex-col justify-center items-center">
+                    <span className="text-2xl font-bold">+30</span>
+                    <span className="text-sm"> Patients actifs</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="hidden px-4 lg:block lg:w-1/12"></div>

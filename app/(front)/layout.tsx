@@ -4,9 +4,12 @@ import React, { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="bg-blue-600">
+    <div className="bg-white">
       <Navbar />
-      <div className="max-w-5xl mx-auto py-3">
+      <div
+        className=" mx-auto py-6 fixed top-16 w-full left-0 right-0 z-50 bg-white 
+      border-t border-gray-400/30 container"
+      >
         <MegaMenu />
       </div>
       {children}

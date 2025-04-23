@@ -144,7 +144,7 @@ const megaMenu = [
 
 export default function MegaMenu() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="bg-white">
       <NavigationMenuList>
         {megaMenu.map((item, i) => {
           return (

@@ -12,7 +12,7 @@ const Hero = () => {
     "spécialiste",
   ];
   return (
-    <div className="bg-blue-950">
+    <div className="bg-blue-950 mt-[160px]">
       <div className="relative pb-[110px] pt-[120px] dark:bg-dark lg:pt-[150px] max-w-6xl mx-auto">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
@@ -22,7 +22,7 @@ const Hero = () => {
                   <span>
                     Prenez rendez-vous <br />
                   </span>
-                  avec votre{" "}
+                  avec votre
                   <TransitionalText className="text-blue-500" TEXTS={TEXTS} />
                   <span>dès aujourd hui</span>
                 </h1>

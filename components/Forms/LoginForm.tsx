@@ -1,12 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+// import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,7 +26,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -114,7 +113,7 @@ export function LoginForm({
                   </Button>
                 </div>
                 <div className="text-center text-xs">
-                  Vous n'avez pas encore de compte ?{" "}
+                  Vous n&apos;avez pas encore de compte ?{" "}
                   <Link
                     href="/register"
                     className="underline underline-offset-4 text-balance text-center text-xs"

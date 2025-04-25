@@ -1,4 +1,4 @@
-import MegaMenu from "@/components/Frontend/MegaMenu";
+// import MegaMenu from "@/components/Frontend/MegaMenu";
 import Navbar from "@/components/Frontend/Navbar";
 import React, { ReactNode } from "react";
 

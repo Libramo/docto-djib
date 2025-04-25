@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -157,7 +156,7 @@ export function RegisterForm({
                 <SubmitButton
                   title="S'inscrire"
                   buttonType="submit"
-                  // isLoading
+                  isLoading={isLoading}
                 />
 
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

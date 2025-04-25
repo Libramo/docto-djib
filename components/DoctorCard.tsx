@@ -41,7 +41,7 @@ const DoctorCard = ({ isInPerson }: { isInPerson: boolean }) => {
               <span>Family medecine</span>
             </p>
             <p className="bg-green-200 py-3 px-6 ml-3 uppercase">
-              Disponible aujourd'hui
+              Disponible aujourd&apos;hui
             </p>
           </div>
         </div>

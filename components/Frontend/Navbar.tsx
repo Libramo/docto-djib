@@ -1,31 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Dialog,
-  DialogPanel,
-  //   Disclosure,
-  //   DisclosureButton,
-  //   DisclosurePanel,
-  //   Popover,
-  //   PopoverButton,
-  PopoverGroup,
-  //   PopoverPanel,
-} from "@headlessui/react";
-import {
-  //   ArrowPathIcon,
-  Bars3Icon,
-  //   ChartPieIcon,
-  //   CursorArrowRaysIcon,
-  //   FingerPrintIcon,
-  //   SquaresPlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-// import {
-// //   ChevronDownIcon,
-// //   PhoneIcon,
-// //   PlayCircleIcon,
-// } from "@heroicons/react/20/solid";
+import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,7 +15,6 @@ export default function Navbar() {
       >
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
             <img
               alt=""
               src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
@@ -69,7 +45,7 @@ export default function Navbar() {
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
-            href="#"
+            href="/login"
             className="text-sm/6 font-semibold text-gray-50 bg-blue-500 rounded-md px-6 py-3"
           >
             Log in <span aria-hidden="true">&rarr;</span>
@@ -126,7 +102,7 @@ export default function Navbar() {
               </div>
               <div className="py-6">
                 <a
-                  href="#"
+                  href="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-50 hover:bg-gray-50 bg-blue-500"
                 >
                   Log in

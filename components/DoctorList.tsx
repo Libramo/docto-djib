@@ -2,22 +2,42 @@ import React from "react";
 import SectionHeading from "./SectionHeading";
 import ToggleButton from "./ToggleButton";
 import Link from "next/link";
-import DoctorCard from "./DoctorCard";
+// import DoctorCard from "./DoctorCard";
+import DoctorsListCarousel from "./DoctorsCarousel";
 
-const DoctorList = () => {
+const DoctorList = ({
+  isInPerson,
+  className,
+}: {
+  isInPerson?: boolean;
+  className?: string;
+}) => {
+  const doctors = [
+    {
+      name: "Liban Yonis",
+    },
+    {
+      name: "Liban Yonis",
+    },
+    {
+      name: "Liban Yonis",
+    },
+  ];
   return (
-    <div className="bg-pink-100 py-8 lg:py-24">
+    <div className={className}>
       <div className="max-w-6xl mx-auto">
-        <SectionHeading title="Teleconsultation" />
+        <SectionHeading
+          title={isInPerson ? "Consultation physique" : "Téléconsultation"}
+        />
 
         <div className="py-4 flex items-center justify-between">
           <ToggleButton />
           <Link className="" href="#">
-            See all
+            Tout
           </Link>
         </div>
         <div className="py-6">
-          <DoctorCard isInPerson={false} />
+          <DoctorsListCarousel doctors={doctors} isInPerson={isInPerson} />
         </div>
       </div>
     </div>

@@ -27,6 +27,7 @@ const TabbedItems = () => {
       slug: "teleconsultation",
     },
   ];
+
   const tabs = [
     {
       title: "Services populaires",
@@ -50,8 +51,9 @@ const TabbedItems = () => {
       content: [],
     },
   ];
+
   return (
-    <Tabs defaultValue={tabs[0].title} className="w-full">
+    <Tabs defaultValue={tabs[1].title} className="w-full">
       <TabsList className="flex flex-row">
         {tabs.map((tab) => (
           <TabsTrigger key={tab.title} value={tab.title}>
@@ -64,7 +66,6 @@ const TabbedItems = () => {
       {tabs.map((tab) => (
         <TabsContent key={tab.title} value={tab.title}>
           {tab.component}
-          {/* <ServiceList /> */}
         </TabsContent>
       ))}
     </Tabs>

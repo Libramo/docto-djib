@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const DoctorCard = ({ isInPerson }: { isInPerson: boolean }) => {
+const DoctorCard = ({ isInPerson }: { isInPerson?: boolean }) => {
   const timeStamps = [
     { time: "8:10", periode: "PM" },
     { time: "9:10", periode: "PM" },
@@ -17,21 +17,22 @@ const DoctorCard = ({ isInPerson }: { isInPerson: boolean }) => {
       className="border border-gray-300 hover:border-gray-500 
     bg-white inline-flex flex-col px-3 py-6 duration-300"
     >
-      <Link href="#">
+      <Link href="/doctors/">
         <h2 className="tracking-widest font-bold">Liban Yonis MD</h2>
         <p> Balbala, djibouti</p>
         <div className="flex items-center py-4">
           <div className="relative">
             <Image
-              src="./globe.svg"
+              src="/doctor1.jpg"
               height={207}
               width={243}
               alt=""
               className="w-24 h-24 rounded-full object-cover"
             />
-            {isInPerson && (
-              <div className="absolute bg-blue-200  p-1 rounded-full right-3 bottom-2">
-                <Video />
+
+            {!isInPerson && (
+              <div className="absolute bg-blue-200  p-1 rounded-full right-1 bottom-1">
+                <Video className="text-blue-400" />
               </div>
             )}
           </div>
@@ -60,8 +61,11 @@ const DoctorCard = ({ isInPerson }: { isInPerson: boolean }) => {
               {item.time} {item.periode}
             </Link>
           ))}
-          <Link className="text-blue-500" href="#">
-            Plus...
+          <Link
+            className="text-blue-500 text-center border-blue-400 border rounded-md  text-[0.7rem]"
+            href="#"
+          >
+            Afficher plus...
           </Link>
         </div>
       </div>

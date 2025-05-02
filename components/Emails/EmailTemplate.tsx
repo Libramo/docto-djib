@@ -18,9 +18,9 @@ interface GithubAccessTokenEmailProps {
   message: string;
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
+// const baseUrl = process.env.VERCEL_URL
+//   ? `https://${process.env.VERCEL_URL}`
+//   : "";
 
 export const EmailTemplate = ({
   username,
@@ -33,16 +33,10 @@ export const EmailTemplate = ({
     <Body style={main}>
       <Preview>{linkText}</Preview>
       <Container style={container}>
-        <Img
-          src={`${baseUrl}/static/github.png`}
-          width="32"
-          height="32"
-          alt="Github"
-        />
+        <Img src="/globe.svg" width="32" height="32" alt="Github" />
 
         <Text style={title}>
-          <strong>@{username}</strong>, a personal access was created on your
-          account.
+          <strong>@{username}</strong>
         </Text>
 
         <Section style={section}>
@@ -54,13 +48,13 @@ export const EmailTemplate = ({
           <Button style={button}>{token}</Button>
         </Section>
         <Text style={links}>
-          <Link style={link}>Your security audit log</Link> ・{" "}
-          <Link style={link}>Contact support</Link>
+          {/* <Link style={link}>Your security audit log</Link> ・{" "} */}
+          <Link href="https://blyanalytics.com" style={link}>
+            Contact support
+          </Link>
         </Text>
 
-        <Text style={footer}>
-          GitHub, Inc. ・88 Colin P Kelly Jr Street ・San Francisco, CA 94107
-        </Text>
+        <Text style={footer}>&copy;, Bly analytics ・ Djibouti ・ with ❤️</Text>
       </Container>
     </Body>
   </Html>

@@ -24,9 +24,13 @@ import { useState } from "react";
 import { createUser } from "@/actions/user";
 import { toast } from "react-toastify";
 import { UserRole } from "@prisma/client";
+import Image from "next/image";
+// import { useSearchParams } from "next/navigation";
 
 type RegisterFormProps = React.ComponentProps<"div"> & {
   userRole?: UserRole; // or `UserRole` if you're using an enum
+  // plan?: "advanced" | "free" | "premium" | "undefined";
+  plan?: string;
 };
 
 export function RegisterForm({
@@ -35,6 +39,7 @@ export function RegisterForm({
   ...props
 }: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -50,9 +55,7 @@ export function RegisterForm({
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
     // console.log(values);
-
     setIsLoading(true);
-
     try {
       const user = await createUser(values);
       if (user && user.status === 200) {
@@ -68,6 +71,7 @@ export function RegisterForm({
       console.log(error);
     }
   }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -154,7 +158,7 @@ export function RegisterForm({
                 </div>
 
                 <SubmitButton
-                  title="S'inscrire"
+                  title={isLoading ? "Inscription en cours..." : "S'inscrire"}
                   buttonType="submit"
                   isLoading={isLoading}
                 />
@@ -184,10 +188,10 @@ export function RegisterForm({
           </Form>
 
           <div className="relative hidden bg-muted md:block">
-            <img
+            <Image
               src="/globe.svg"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-none dark:brightness-[0.2] dark:grayscale"
             />
           </div>
         </CardContent>

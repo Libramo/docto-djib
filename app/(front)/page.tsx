@@ -2,7 +2,6 @@ import DoctorList from "@/components/DoctorList";
 import Brands from "@/components/Frontend/Brands";
 import Hero from "@/components/Frontend/Hero";
 import TabbedSection from "@/components/Frontend/TabbedSection";
-// import Image from "next/image";
 
 export default function Home() {
   return (
@@ -11,6 +10,7 @@ export default function Home() {
       <Brands />
       <TabbedSection />
       <DoctorList />
+      <DoctorList className="bg-pink-100 py-8 lg:py-24" isInPerson />
     </section>
   );
 }

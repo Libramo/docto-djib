@@ -70,10 +70,14 @@ const SingleImage = ({
       >
         <Image
           src={imageSrc}
+          width={250}
+          height={250}
           alt={altText ?? ""}
           className="h-10 w-full dark:hidden"
         />
         <Image
+          width={250}
+          height={250}
           src={lightImageSrc ?? ""}
           alt={altText ?? ""}
           className="hidden h-10 w-full dark:block"

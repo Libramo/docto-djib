@@ -186,7 +186,7 @@ export function LoginForm({ ...props }: React.ComponentProps<"div">) {
               Forgot your password?
             </Link>
             <p className="text-sm text-center">
-              Vous n'avez pas encore de compte ?
+              Vous n&apos;avez pas encore de compte ?
               <Link
                 href="/register"
                 className="ml-1 underline text-muted-foreground"

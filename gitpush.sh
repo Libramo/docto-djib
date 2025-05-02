@@ -17,6 +17,9 @@ git commit -m "$1"
 branch=$(git rev-parse --abbrev-ref HEAD)
 
 # Push to the current branch
-git push origin "$branch"
-
-echo "✅ Changes pushed to $branch!"
+if git push origin "$branch"; then
+  echo "✅ Changes pushed to $branch!"
+else
+  echo "❌ Failed to push changes to $branch."
+  exit 1
+fi

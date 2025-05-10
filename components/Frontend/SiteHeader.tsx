@@ -9,6 +9,7 @@ import { ModeSwitcher } from "./ModeSwitcher";
 import { Button } from "../ui/button";
 // import { CommandMenu } from "./CommandMenu";
 import { LogInIcon } from "lucide-react";
+import { FaUserDoctor } from "react-icons/fa6";
 
 export function SiteHeader() {
   return (
@@ -26,32 +27,35 @@ export function SiteHeader() {
           </div>
 
           {/* Right Side (Search, Icons) */}
-          <div className="ml-auto flex items-center gap-2">
-            {/* Search (hidden on mobile) */}
-            {/* <div className="hidden md:flex flex-1 justify-end">
-              <CommandMenu />
-            </div> */}
-
-            {/* GitHub + Mode Switcher */}
-            <nav className="flex items-center gap-1 flex-shrink-0">
+          <div className="ml-auto flex items-center gap-2 px-4 space-x-4">
+            <div>
               <Button
                 asChild
-                variant="ghost"
-                size="lg"
-                className="h-8 w-8 px-0"
+                variant="outline"
+                size="default"
+                className="px-0 hover:bg-primary hover:text-background"
               >
-                <Link
-                  href="/login"
-                  //   target="_blank"
-                  //   rel="noreferrer"
-                >
-                  <LogInIcon className="h-4 w-4" />
+                <Link href="/register?role=DOCTOR">
+                  <FaUserDoctor className="h-4 w-4" />
                   <span className="sr-only">Se connecter</span>
+                  <span className="font-semibold">Vous etes médecin ?</span>
                 </Link>
               </Button>
+            </div>
+            <Button
+              asChild
+              variant="outline"
+              size="default"
+              className="px-0 hover:bg-primary hover:text-background"
+            >
+              <Link href="/login">
+                <LogInIcon className="h-4 w-4" />
+                <span className="sr-only">Se connecter</span>
+                <span>Se connecter</span>
+              </Link>
+            </Button>
 
-              <ModeSwitcher />
-            </nav>
+            <ModeSwitcher />
           </div>
         </div>
       </div>

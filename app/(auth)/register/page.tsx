@@ -1,4 +1,7 @@
+import { getSpecialties } from "@/actions/doctor";
 import { RegisterForm } from "@/components/Forms/RegisterForm";
+import { UserRole } from "@prisma/client";
+import Image from "next/image";
 import React from "react";
 
 const RegisterPage = async ({
@@ -6,11 +9,27 @@ const RegisterPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { role, plan } = await searchParams;
+  const specialties = await getSpecialties();
+  const { role } = await searchParams;
   return (
-    <div className=" flex flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-3xl">
-        <RegisterForm role={role as string} plan={plan as string} />
+    <div className="min-h-screen grid lg:grid-cols-2">
+      {/* Left: Registration Form */}
+      <div className="p-6 flex items-center justify-center">
+        <RegisterForm
+          userRole={role as UserRole}
+          specialties={specialties?.map((s) => s.name) as string[]}
+        />
+      </div>
+
+      {/* Right: Sticky and Stretched Image */}
+      <div className="hidden lg:block sticky top-0 h-screen bg-red-500">
+        <Image
+          src="/doctor1.jpg"
+          alt="Image du docteur"
+          className="w-full h-full object-cover"
+          width={1000}
+          height={1000}
+        />
       </div>
     </div>
   );

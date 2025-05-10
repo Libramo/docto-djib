@@ -1,7 +1,12 @@
+import SettingsPage from "@/components/Dashboard/SettingsPage";
 import React from "react";
 
 const page = () => {
-  return <div>SettingsPage</div>;
+  return (
+    <>
+      <SettingsPage />
+    </>
+  );
 };
 
 export default page;

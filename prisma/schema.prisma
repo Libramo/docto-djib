@@ -47,18 +47,39 @@ enum UserRole {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String?   @unique
-  phone         String?
-  emailVerified DateTime?
-  image         String?
-  role          UserRole  @default(USER)
-  password      String
-  accounts      Account[]
-  sessions      Session[]
-  isVerfied     Boolean   @default(false)
-  token         Int
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                String            @id @default(uuid())
+  name              String?
+  email             String?           @unique
+  phone             String?
+  emailVerified     DateTime?
+  image             String?
+  role              UserRole          @default(USER)
+  password          String
+  accounts          Account[]
+  sessions          Session[]
+  isVerfied         Boolean           @default(false)
+  token             Int
+  doctorSpecialties DoctorSpecialty[] // 👈 Explicit join table
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Specialty {
+  id   String @id @default(uuid())
+  name String @unique
+
+  doctorSpecialties DoctorSpecialty[] // 👈 Explicit join table
+}
+
+model DoctorSpecialty {
+  userId      String
+  specialtyId String
+
+  user      User      @relation(fields: [userId], references: [id])
+  specialty Specialty @relation(fields: [specialtyId], references: [id])
+
+  assignedAt DateTime @default(now()) // Example of extra metadata
+
+  @@id([userId, specialtyId]) // Composite primary key
 }

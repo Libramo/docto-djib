@@ -14,7 +14,7 @@ import * as React from "react";
 //   SquareTerminal,
 // } from "lucide-react";
 
-import { MdOutlineDashboard, MdOutlineSettings } from "react-icons/md";
+// import { MdOutlineDashboard, MdOutlineSettings } from "react-icons/md";
 import {
   Sidebar,
   SidebarContent,
@@ -28,35 +28,38 @@ import { NavUser } from "./NavUser";
 import { useSession } from "../providers/SessionContext";
 import Image from "next/image";
 import { UserRole } from "@prisma/client";
+import { sidebarItems } from "@/config/docs";
 
 // This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: MdOutlineDashboard,
-      items: [],
-    },
+// const data = {
+//   navMain: [
+//     {
+//       title: "Dashboard",
+//       url: "/dashboard",
+//       icon: MdOutlineDashboard,
+//       items: [],
+//     },
 
-    {
-      title: "Settings",
-      url: "/dashboard/settings",
-      icon: MdOutlineSettings,
-      items: [],
-    },
-  ],
-};
+//     {
+//       title: "Settings",
+//       url: "/dashboard/settings",
+//       icon: MdOutlineSettings,
+//       items: [],
+//     },
+//   ],
+// };
 
 interface CustomSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userRole: UserRole[]; // or a union like 'admin' | 'user' | etc.
 }
 
-export function AppSidebar({ ...props }: CustomSidebarProps) {
+export function AppSidebar({ userRole, ...props }: CustomSidebarProps) {
   const { state } = useSidebar();
   const session = useSession();
 
-  // const filteredItems = data.navMain.filter((item) => item.(userRole));
+  const sidebarLinks = sidebarItems.filter((item) =>
+    item.roles.some((role) => userRole.includes(role))
+  );
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -68,7 +71,7 @@ export function AppSidebar({ ...props }: CustomSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={sidebarLinks} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={session.user} />

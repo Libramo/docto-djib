@@ -1,37 +1,33 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import React from "react";
+"use client";
 
-const SearchBar = () => {
-  return (
-    <div>
-      <form className="max-w-md">
-        <label
-          htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-        >
-          Rechercher
-        </label>
-        <div className="relative">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <MagnifyingGlassIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-          </div>
-          <input
-            type="search"
-            id="default-search"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Recherchez des docteurs, etc..."
-            required
-          />
-          <button
-            type="submit"
-            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Rechercher
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+
+type searchBarProps = {
+  query?: string;
 };
+export default function SearchBar({ query }: searchBarProps) {
+  const handleQuery = async () => {
+    alert(`query is ${query}`);
+  };
 
-export default SearchBar;
+  return (
+    <form onSubmit={handleQuery}>
+      <div className="w-full flex flex-row gap-5">
+        <div className="flex items-center rounded-md border focus-within:ring-1 focus-within:ring-ring pl-2">
+          <Search className="h-5 w-5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder="Recherchez..."
+            className="border-0 focus-visible:ring-0 shadow-none"
+          />
+        </div>
+
+        <Button type="submit" variant="outline" size="lg">
+          Recherchez
+        </Button>
+      </div>
+    </form>
+  );
+}

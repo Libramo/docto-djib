@@ -1,6 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,30 +15,40 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 import { registerFormSchema } from "@/validations/zodSchemas";
-import SubmitButton from "./SubmitButton";
 import { useState } from "react";
 
 import { createUser } from "@/actions/user";
 import { toast } from "react-toastify";
 import { UserRole } from "@prisma/client";
-import Image from "next/image";
+// import Image from "next/image";
+import { Separator } from "../ui/separator";
+import { useRouter } from "next/navigation";
+import { FaGoogle } from "react-icons/fa";
+import { Loader2 } from "lucide-react";
+import CustomRadioGroup from "../CustomRadioGroup";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
 // import { useSearchParams } from "next/navigation";
 
 type RegisterFormProps = React.ComponentProps<"div"> & {
   userRole?: UserRole; // or `UserRole` if you're using an enum
-  // plan?: "advanced" | "free" | "premium" | "undefined";
-  plan?: string;
+  specialties: string[];
 };
 
 export function RegisterForm({
   userRole = "USER",
-  className,
-  ...props
+  specialties,
 }: RegisterFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -49,13 +58,16 @@ export function RegisterForm({
       phone: "",
       password: "",
       role: userRole,
+      doctorStatus: "employed",
+      specialty: "",
     },
   });
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
-    // console.log(values);
+    console.log(values);
     setIsLoading(true);
+
     try {
       const user = await createUser(values);
       if (user && user.status === 200) {
@@ -64,6 +76,7 @@ export function RegisterForm({
         setIsLoading(false);
         toast.success("User Created successfully");
         console.log(user.data);
+        router.push(`/verify-account/${user.data?.id}`);
       } else {
         console.log(user.error);
       }
@@ -73,133 +86,194 @@ export function RegisterForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden">
-        <CardContent className="grid p-0 md:grid-cols-2">
-          <Form {...form}>
-            <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">Docto djib</h1>
-                  <p className="text-balance text-muted-foreground text-sm">
-                    Veuillez renseigner les informations suivantes
-                  </p>
-                </div>
+    <div className="max-w-md m-auto w-full flex flex-col items-center">
+      <p className="mt-4 text-xl font-bold tracking-tight">Inscription</p>
+      {userRole === "DOCTOR" && (
+        <div className="flex items-center justify-center mt-4">
+          <p className="mb-4 text-sm text-center text-balance">
+            Bienvenu <span className="font-semibold">Docteur</span>, remplissez
+            les champs ci-dessous pour créer votre compte
+          </p>
+        </div>
+      )}
 
-                <div className="grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nom</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Nom complet" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+      <Form {...form}>
+        <form
+          className="w-full space-y-4"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nom</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Nom complet"
+                    className="w-full"
+                    {...field}
                   />
-                </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                <div className="grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full"
+                    {...field}
                   />
-                </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                <div className="grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Téléphone</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Téléphone" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Télépone</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Téléphone"
+                    className="w-full"
+                    {...field}
                   />
-                </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                <div className="grid gap-2">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="flex items-center justify-between">
-                          <FormLabel>Mot de passe</FormLabel>
-                        </div>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="*********"
-                            {...field}
-                            required
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+          {userRole === "DOCTOR" && (
+            <>
+              <FormField
+                control={form.control}
+                name="doctorStatus"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Statut</FormLabel>
+                    <FormControl>
+                      <CustomRadioGroup
+                        options={[
+                          { label: "Libéral(e)", value: "liberal" },
+                          { label: "Salarié", value: "employed" },
+                        ]}
+                        onChange={field.onChange}
+                        value={field.value as string}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="specialty"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Spécialité</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Choisissez votre spécialité" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="grid-cols-2">
+                        {specialties?.map((spec) => (
+                          <SelectItem key={spec} value={spec}>
+                            {spec}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mot de passe</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Mot de passe"
+                    className="w-full"
+                    {...field}
                   />
-                </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                <SubmitButton
-                  title={isLoading ? "Inscription en cours..." : "S'inscrire"}
-                  buttonType="submit"
-                  isLoading={isLoading}
-                />
+          <Button type="submit" variant={"default"} className="mt-4 w-full">
+            {isLoading && <Loader2 className="animate-spin" />}
+            {isLoading ? "Création de compte..." : "Créer mon compte"}
+          </Button>
 
-                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                    Ou connectez vous avec
-                  </span>
-                </div>
-                <div>
-                  <Button variant="outline" className="w-full">
-                    <FcGoogle />
-                    <span className="sr-only">Login with Google</span>
-                  </Button>
-                </div>
-                <div className="text-center text-xs">
-                  Vous avez déja un compte ?{" "}
-                  <Link
-                    href="/login"
-                    className="underline underline-offset-4 text-balance text-center text-xs"
-                  >
-                    Connectez-vous
-                  </Link>
-                </div>
-              </div>
-            </form>
-          </Form>
-
-          <div className="relative hidden bg-muted md:block">
-            <Image
-              src="/globe.svg"
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-none dark:brightness-[0.2] dark:grayscale"
-            />
+          <div className="my-7 w-full flex items-center justify-center overflow-hidden">
+            <Separator />
+            <span className="text-sm px-2">OU</span>
+            <Separator />
           </div>
-        </CardContent>
-      </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full h-10 w-10"
+            >
+              <FaGoogle className="!h-[18px] !w-[18px]" />
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full h-10 w-10"
+            >
+              <FaGoogle className="!h-[18px] !w-[18px]" />
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full h-10 w-10"
+            >
+              <FaGoogle className="!h-[18px] !w-[18px]" />
+            </Button>
+          </div>
+        </form>
+      </Form>
+
+      <p className="mt-5 text-sm text-center">
+        Vous avez déja un compte ?
+        <Link href="/login" className="ml-1 underline text-muted-foreground">
+          Connectez-vous
+        </Link>
+      </p>
     </div>
   );
 }

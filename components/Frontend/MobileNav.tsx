@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useMetaColor } from "@/hooks/use-meta-color";
 import { Button } from "../ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
+import { DialogTitle } from "../ui/dialog";
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
@@ -55,7 +56,7 @@ export function MobileNav() {
             />
           </svg>
           <span className="sr-only">Toggle Menu</span>
-          <span
+          {/* <span
             className="
           flex 
           h-8 
@@ -72,10 +73,11 @@ export function MobileNav() {
           shadow-none"
           >
             Search documentation...
-          </span>
+          </span> */}
         </Button>
       </DrawerTrigger>
 
+      <DialogTitle className="sr-only">Toggle menu</DialogTitle>
       <DrawerContent className="max-h-[80svh] p-0">
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">

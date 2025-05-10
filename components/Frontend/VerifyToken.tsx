@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+
 // import { Loader } from "lucide-react";
 import {
   Form,
@@ -24,10 +26,11 @@ import {
   // InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import SubmitButton from "../Forms/SubmitButton";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+
+import { Alert, AlertDescription } from "../ui/alert";
 import { toast } from "react-toastify";
 import { updateUserById } from "@/actions/user";
+import { Button } from "../ui/button";
 
 const FormSchema = z.object({
   token: z.string().min(6, {
@@ -59,7 +62,6 @@ export default function VerifyTokenForm({
     console.log(userToken);
 
     if (userInputToken === userToken) {
-      setShowNotification(false);
       //Update User
       try {
         await updateUserById(id);
@@ -78,55 +80,57 @@ export default function VerifyTokenForm({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        {showNotification && (
-          //   <Alert color="failure" icon={HiInformationCircle}>
-          //     <span className="font-medium">Wrong Token!</span> Please Check the
-          //     token and Enter again
-          //   </Alert>
-
-          <Alert variant="destructive">
-            <HiInformationCircle />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-              Verifiez le code et saisissez-le à nouveau
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <FormField
-          control={form.control}
-          name="token"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Saisissez le code ici 👇.</FormLabel>
-              <FormControl>
-                <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormDescription>
-                Entez le code à six chiffres qui vous a été envoyé par email.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+    <div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          {showNotification && (
+            <Alert variant="destructive" className="mb-12">
+              <HiInformationCircle />
+              <AlertDescription>
+                Votre code n&apos;est pas le bon. Verifiez le et saisissez-le à
+                nouveau.
+              </AlertDescription>
+            </Alert>
           )}
-        />
 
-        {/* <Button type="submit">Submit</Button> */}
-        <SubmitButton
-          title={isloading ? "Verification..." : "Verifier le code"}
-          isLoading={isloading}
-        />
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="token"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="uppercase mb-12 text-2xl justify-center">
+                  Saisissez le code ici 👇.
+                </FormLabel>
+                <FormControl>
+                  <InputOTP
+                    maxLength={6}
+                    {...field}
+                    className="w-full"
+                    pattern={REGEXP_ONLY_DIGITS}
+                  >
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </FormControl>
+                <FormDescription>
+                  Entrez le code à six chiffres qui vous a été envoyé par email.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button className="w-full mt-12" type="submit" disabled={isloading}>
+            {isloading ? "Verification..." : "Verifier le code"}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 }

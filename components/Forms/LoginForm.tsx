@@ -34,6 +34,7 @@ import {
 import { Separator } from "../ui/separator";
 // import Image from "next/image";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { cn } from "@/lib/utils";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -159,7 +160,11 @@ export function LoginForm() {
             )}
           />
 
-          <Button type="submit" className="mt-4 w-full">
+          <Button
+            type="submit"
+            className={cn("mt-4 w-full")}
+            disabled={isLoading}
+          >
             {isLoading && (
               <span>
                 <LoaderPinwheel className="animate-spin" />

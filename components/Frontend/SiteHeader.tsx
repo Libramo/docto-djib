@@ -29,12 +29,7 @@ export function SiteHeader() {
           {/* Right Side (Search, Icons) */}
           <div className="ml-auto flex items-center gap-2 px-4 space-x-4">
             <div>
-              <Button
-                asChild
-                variant="outline"
-                size="default"
-                className="px-0 hover:bg-primary hover:text-background"
-              >
+              <Button asChild variant="outline" size="default">
                 <Link href="/register?role=DOCTOR">
                   <FaUserDoctor className="h-4 w-4" />
                   <span className="sr-only">Se connecter</span>
@@ -42,12 +37,8 @@ export function SiteHeader() {
                 </Link>
               </Button>
             </div>
-            <Button
-              asChild
-              variant="outline"
-              size="default"
-              className="px-0 hover:bg-primary hover:text-background"
-            >
+
+            <Button asChild variant="outline" size="default">
               <Link href="/login">
                 <LogInIcon className="h-4 w-4" />
                 <span className="sr-only">Se connecter</span>

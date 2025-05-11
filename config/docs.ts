@@ -1,7 +1,19 @@
 import { MainNavItem, SidebarNavItem } from "@/types/nav";
 import { UserRole } from "@prisma/client";
 import { IconType } from "react-icons/lib";
-import { MdOutlineDashboard } from "react-icons/md";
+import {
+  MdAdminPanelSettings,
+  MdAssignment,
+  MdCalendarToday,
+  MdChat,
+  MdHelpOutline,
+  MdLocalPharmacy,
+  MdOutlineDashboard,
+  MdPeopleOutline,
+  MdPersonOutline,
+  MdSearch,
+  MdSettings,
+} from "react-icons/md";
 
 export interface DocsConfig {
   mainNav: MainNavItem[];
@@ -61,27 +73,70 @@ export const docsConfig: DocsConfig = {
 
 export const sidebarItems: SidebarItem[] = [
   {
-    label: "Dashboard",
+    label: "Tableau de bord",
     href: "/dashboard",
     roles: [UserRole.ADMIN, UserRole.DOCTOR, UserRole.USER],
     icon: MdOutlineDashboard,
   },
   {
-    label: "Admin Panel",
-    href: "/admin",
+    label: "Panneau Admin",
+    href: "/admin/dashboard",
     roles: [UserRole.ADMIN],
-    icon: MdOutlineDashboard,
+    icon: MdAdminPanelSettings,
   },
   {
-    label: "My Patients",
-    href: "/patients",
+    label: "Mes patients",
+    href: "/doctor/patients",
     roles: [UserRole.DOCTOR],
-    icon: MdOutlineDashboard,
+    icon: MdPeopleOutline,
   },
   {
-    label: "Profile",
-    href: "/dashbord/profile",
+    label: "Rendez-vous",
+    href: "/doctor/appointments",
+    roles: [UserRole.DOCTOR],
+    icon: MdCalendarToday,
+  },
+  {
+    label: "Mon profil",
+    href: "/profile",
     roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
-    icon: MdOutlineDashboard,
+    icon: MdPersonOutline,
+  },
+  {
+    label: "Paramètres",
+    href: "/settings",
+    roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
+    icon: MdSettings,
+  },
+
+  {
+    label: "Trouver un médecin",
+    href: "/find-doctor",
+    roles: [UserRole.USER],
+    icon: MdSearch,
+  },
+  {
+    label: "Mes prescriptions",
+    href: "/prescriptions",
+    roles: [UserRole.USER],
+    icon: MdLocalPharmacy,
+  },
+  {
+    label: "Historique médical",
+    href: "/medical-history",
+    roles: [UserRole.USER],
+    icon: MdAssignment,
+  },
+  {
+    label: "Messages",
+    href: "/messages",
+    roles: [UserRole.USER],
+    icon: MdChat,
+  },
+  {
+    label: "Support",
+    href: "/support",
+    roles: [UserRole.USER],
+    icon: MdHelpOutline,
   },
 ];

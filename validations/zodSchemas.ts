@@ -14,7 +14,7 @@ export const registerFormSchema = z
     phone: z.string().min(6, { message: "Numéro de téléphone invalide" }),
     role: z.nativeEnum(UserRole),
     specialty: z.string().optional(), // optional here, refined below
-    doctorStatus: z.string().optional(), // optional here, refined below
+    doctorStatus: z.enum(doctorStatuses).optional(), // optional here, refined below
   })
   .refine(
     (data) => {
@@ -31,9 +31,7 @@ export const registerFormSchema = z
   .refine(
     (data) => {
       if (data.role === "DOCTOR") {
-        return doctorStatuses.includes(
-          data.doctorStatus as (typeof doctorStatuses)[number]
-        );
+        return !!data.doctorStatus;
       }
       return true;
     },

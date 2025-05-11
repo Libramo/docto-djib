@@ -54,7 +54,9 @@ export const EmailTemplate = ({
           </Link>
         </Text>
 
-        <Text style={footer}>&copy;, Bly analytics ・ Djibouti ・ with ❤️</Text>
+        <Text style={footer}>
+          {new Date().getFullYear()}&copy;, Bly analytics ・ Djibouti ・ with ❤️
+        </Text>
       </Container>
     </Body>
   </Html>

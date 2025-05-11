@@ -29,6 +29,7 @@ import { useSession } from "../providers/SessionContext";
 import Image from "next/image";
 import { UserRole } from "@prisma/client";
 import { sidebarItems } from "@/config/docs";
+import { siteConfig } from "@/config/site";
 
 // This is sample data.
 // const data = {
@@ -58,15 +59,19 @@ export function AppSidebar({ userRole, ...props }: CustomSidebarProps) {
   const session = useSession();
 
   const sidebarLinks = sidebarItems.filter((item) =>
-    item.roles.some((role) => userRole.includes(role))
+    item.roles.some((role) => userRole?.includes(role))
   );
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-4 justify-center">
+        <div className="flex items-center gap-4 justify-center mt-4">
           <Image src="/globe.svg" alt="" width={20} height={20} />
-          {state === "expanded" && <h1>LOGONAME</h1>}
+          {state === "expanded" && (
+            <span className="hidden font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+              {siteConfig.name}
+            </span>
+          )}
         </div>
       </SidebarHeader>
 

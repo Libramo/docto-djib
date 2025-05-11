@@ -10,7 +10,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
   secret: process.env.AUTH_SECRET!,
   session: {
     strategy: "jwt",
-    maxAge: 60,
+    maxAge: 60 * 60 * 1000,
   },
   pages: {
     signIn: "/login",
@@ -24,19 +24,26 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
       },
 
       authorize: async (credentials) => {
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
+
         try {
           console.log(
             "Authorize function called with credentials:",
             credentials
           );
           // Check if user credentials are Correct
-          if (!credentials?.email || !credentials?.password) {
-            throw { error: "No Inputs Found", status: 401 };
+          if (!email || !password) {
+            throw new Error("No input found");
           }
+
           console.log("Pass 1 checked ");
           //Check if user exists
+          const normalizedEmail = email.toLowerCase();
           const existingUser = await prisma.user.findUnique({
-            where: { email: credentials.email as string },
+            where: { email: normalizedEmail },
           });
 
           if (!existingUser) {
@@ -91,7 +98,6 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
         token.name = dbUser.name;
         token.email = dbUser.email;
         token.role = dbUser.role;
-        token.picture = dbUser.image;
       }
 
       const expireDate = addMinutes(new Date(), 1); // expires in 1 hour
@@ -107,10 +113,6 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
         session.user.email = token.email as string;
         session.user.image = token.picture;
         session.user.role = token.role;
-
-        // Pass the expiration to the session
-        session.expires = new Date(token.exp! * 1000).toISOString() as Date &
-          string;
       }
       return session;
     },

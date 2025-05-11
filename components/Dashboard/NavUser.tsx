@@ -38,7 +38,7 @@ export function NavUser({
 }: {
   user: User & {
     id: UserId;
-    role: UserRole;
+    role: UserRole | null;
   };
   type?: "icon" | "button";
 }) {
@@ -53,7 +53,7 @@ export function NavUser({
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                  <AvatarFallback>SC</AvatarFallback>
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
               </Button>
             ) : (
@@ -66,7 +66,9 @@ export function NavUser({
                     src={user.image as string}
                     alt={user.name as string}
                   />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user?.name?.slice(0, 2).toUpperCase() || "CN"}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -125,8 +127,8 @@ export function NavUser({
               className="text-destructive"
               onClick={() => signOut()}
             >
-              <LogOut className="text-destructive" />
-              Se deconnecter
+              <LogOut />
+              <span>Se deconnecter</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

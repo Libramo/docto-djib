@@ -14,7 +14,9 @@ const specialties = [
   "Médecine générale",
 ];
 
-async function main() {
+const statuses = ["liberal", "employed"];
+
+async function specialitiesSeed() {
   console.log("🌱 Seeding specialties...");
 
   for (const name of specialties) {
@@ -28,6 +30,22 @@ async function main() {
   console.log("✅ Specialties seeded");
 }
 
-main().catch((err) => {
-  console.error("❌ Error seeding database:", err);
+async function statusesSeed() {
+  for (const name of statuses) {
+    await prisma.employmentStatus.upsert({
+      where: { name },
+      update: {}, // do nothing if exists
+      create: { name },
+    });
+  }
+
+  console.log("✅ Employment statuses seeded.");
+}
+
+specialitiesSeed().catch((err) => {
+  console.error("❌ Error seeding specialities:", err);
+});
+
+statusesSeed().catch((err) => {
+  console.error("❌ Error seeding statuses:", err);
 });

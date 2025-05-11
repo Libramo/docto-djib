@@ -1,21 +1,10 @@
 "use client";
 
-// import { ChevronRight, type LucideIcon } from "lucide-react";
-
-// import {
-//   Collapsible,
-//   CollapsibleContent,
-//   CollapsibleTrigger,
-// } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
-  // SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  // SidebarMenuSub,
-  // SidebarMenuSubButton,
-  // SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { IconType } from "react-icons/lib";
 import { usePathname, useRouter } from "next/navigation";
@@ -37,7 +26,7 @@ export function NavMain({
   const router = useRouter();
   return (
     <SidebarGroup>
-      <SidebarMenu>
+      <SidebarMenu className="space-y-2 mt-5">
         {items.map((item) => {
           const isActive = pathname === item.href;
           return (

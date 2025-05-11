@@ -8,7 +8,8 @@ import { Resend } from "resend";
 
 export async function createUser(formData: RegisterFormValues) {
   const resend = new Resend(process.env.RESEND_API_KEY as string);
-  const { name, email, role, phone, password } = formData;
+  const { name, email, role, phone, password, doctorStatus, specialty } =
+    formData;
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -31,6 +32,32 @@ export async function createUser(formData: RegisterFormValues) {
     //Generate Token
     const userToken = generateToken();
 
+    let specialtyRecord = null;
+    if (specialty) {
+      specialtyRecord = await prisma.specialty.findUnique({
+        where: { name: specialty }, // assumes label is unique
+      });
+
+      if (!specialtyRecord) {
+        return {
+          data: null,
+          error: `La spécialité "${specialty}" est introuvable.`,
+          status: 400,
+        };
+      }
+    }
+
+    const employmentStatusRecord =
+      role === "DOCTOR" && doctorStatus
+        ? await prisma.employmentStatus.findUnique({
+            where: { name: doctorStatus }, // doctorStatus like 'liberal'
+          })
+        : null;
+
+    if (role === "DOCTOR" && doctorStatus && !employmentStatusRecord) {
+      throw new Error("Invalid doctor status.");
+    }
+
     const newUser = await prisma.user.create({
       data: {
         name,
@@ -39,6 +66,26 @@ export async function createUser(formData: RegisterFormValues) {
         password: hashedPassword,
         role,
         token: userToken,
+        ...(role === "DOCTOR" && specialty && doctorStatus
+          ? {
+              employmentStatusId: employmentStatusRecord?.id, // must be a string enum or reference in your schema
+              doctorSpecialties: {
+                create: [
+                  {
+                    specialty: {
+                      connect: {
+                        id: specialtyRecord?.id,
+                      },
+                    },
+                  },
+                ],
+              },
+            }
+          : {}),
+      },
+
+      include: {
+        doctorSpecialties: true,
       },
     });
 
@@ -48,7 +95,7 @@ export async function createUser(formData: RegisterFormValues) {
     // const userId = newUser.id;
     const linkText = "Verifiez votre compte";
     const message =
-      "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
+      "Merci de vous être inscrit. Pour finaliser votre inscription, veuillez entrer ce code à 6 chiffres sur notre site :";
 
     const sendMail = await resend.emails.send({
       from: "Docto-Djib <contact@blyanalytics.com>",

@@ -17,7 +17,7 @@ const Hero = () => {
       </div>
 
       <div className="mt-12 flex items-center justify-center gap-4">
-        <SearchBar />
+        <SearchBar query={""} />
       </div>
     </div>
   );

@@ -34,8 +34,9 @@ export function NavMain({
               <SidebarMenuButton
                 className={cn(
                   "flex items-center gap-2 w-full px-3 py-2 rounded-md transition-colors",
-                  isActive && "bg-primary/50 text-primary-foreground",
-                  "hover:bg-primary/70 hover:text-white"
+                  "cursor-pointer",
+                  isActive && "bg-primary/50 text-foreground"
+                  // "hover:bg-primary/70 hover:text-white"
                   // You can also use: isActive && "bg-primary/50 text-primary-foreground"
                 )}
                 tooltip={item.label}

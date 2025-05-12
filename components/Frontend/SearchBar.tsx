@@ -16,7 +16,10 @@ export default function SearchBar({ query = "" }: SearchBarProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("YEEEEEEEEEEEEESSS", search);
+
     const trimmed = search.trim();
+    console.log("YEEEEEEEEEEEEESSS", trimmed);
     if (trimmed) {
       router.push(`/find-doctor?query=${encodeURIComponent(trimmed)}`);
     }

@@ -1,13 +1,14 @@
 // app/find-doctor/page.tsx
-import DoctorCard from "@/components/DoctorCard";
+// import DoctorCard from "@/components/DoctorCard";
 import { prisma } from "@/lib/db";
 
 interface Props {
-  searchParams: { query?: string };
+  searchParams: Promise<{ query?: string | string[] }>;
 }
 
 export default async function FindDoctorPage({ searchParams }: Props) {
-  const query = searchParams.query || "";
+  const params = await searchParams;
+  const query = Array.isArray(params.query) ? params.query[0] : params.query;
 
   try {
     const doctors = await prisma.user.findMany({
@@ -36,7 +37,7 @@ export default async function FindDoctorPage({ searchParams }: Props) {
     return (
       <div className="p-4">
         <h2 className="text-2xl font-semibold mb-4">
-          Résultats pour « {query} »
+          {/* Résultats pour « {query} » */}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {doctors.length > 0 ? (

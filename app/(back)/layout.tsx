@@ -21,7 +21,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthenticatedLayout session={session}>
-      <IdleLogoutWrapper>{children}</IdleLogoutWrapper>
+      <IdleLogoutWrapper session={session}>{children}</IdleLogoutWrapper>
     </AuthenticatedLayout>
   );
 };

@@ -2,74 +2,85 @@ import { StethoscopeIcon, Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Card } from "./ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { DoctorTimeSlots } from "./DoctorTimeSlots";
+import { Availability, User } from "@prisma/client";
+import { Button } from "./ui/button";
+import { AvailabilityCalendar } from "./AvailabilityCalendar";
+// import { AvailableSlotsList } from "./AvailableSlotList";
+// import AvailabilityCalendar from "./AvailabilityCalendar";
 
-const DoctorCard = ({ isInPerson }: { isInPerson?: boolean }) => {
-  const timeStamps = [
-    { time: "8:10", periode: "PM" },
-    { time: "9:10", periode: "PM" },
-    { time: "10:10", periode: "PM" },
-    { time: "11:10", periode: "PM" },
-    { time: "12:10", periode: "PM" },
-  ];
+type DoctorWithDetails = User & {
+  doctorSpecialties: {
+    specialty: {
+      name: string;
+    };
+  }[];
+  availabilities: Availability[];
+};
+
+interface Props {
+  doctor: DoctorWithDetails;
+}
+
+const DoctorCard = ({ doctor }: Props) => {
+  const isAvailable = doctor.availabilities?.some(
+    (a) => new Date(a.dateTime) > new Date() && !a.isBooked
+  );
 
   return (
-    <div
-      className="border border-gray-300 hover:border-gray-500 
-    bg-white inline-flex flex-col px-3 py-6 duration-300"
-    >
-      <Link href="/doctors/">
-        <h2 className="tracking-widest font-bold">Liban Yonis MD</h2>
-        <p> Balbala, djibouti</p>
-        <div className="flex items-center py-4">
-          <div className="relative">
-            <Image
-              src="/doctor1.jpg"
-              height={207}
-              width={243}
-              alt=""
-              className="w-24 h-24 rounded-full object-cover"
-            />
-
-            {!isInPerson && (
-              <div className="absolute bg-blue-200  p-1 rounded-full right-1 bottom-1">
-                <Video className="text-blue-400" />
-              </div>
-            )}
+    <Card key={doctor.id} className="border rounded-lg shadow-sm p-6">
+      <div className="grid md:grid-cols-8 gap-6">
+        {/* Left side: Image, name, specialty, address, status */}
+        <div className="md:col-span-3 space-y-2">
+          <div className="flex items-center gap-2">
+            <Avatar className="w-8 h-8">
+              <AvatarImage
+                src={doctor.image || ""}
+                alt={doctor.name as string}
+              />
+              <AvatarFallback>{doctor.name?.[0]}</AvatarFallback>
+            </Avatar>
+            <h3 className="text-lg font-semibold">{doctor.name}</h3>
           </div>
-          <div className="flex flex-col gap-4 shrink-0">
-            <p className="flex items-center ml-3">
-              <StethoscopeIcon className="w-4 h-4 mr-2 " />
-              <span>Family medecine</span>
+
+          {doctor.doctorSpecialties?.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              {doctor.doctorSpecialties.map((s) => s.specialty.name).join(", ")}
             </p>
-            <p className="bg-green-200 py-3 px-6 ml-3 uppercase">
-              Disponible aujourd&apos;hui
-            </p>
+          )}
+          <div className="text-sm text-muted-foreground mt-2 space-y-1">
+            {doctor.adress && <p>{doctor.adress}</p>}
+            <Badge variant={isAvailable ? "default" : "outline"}>
+              {isAvailable ? "Disponible" : "Indisponible"}
+            </Badge>
+            {/* <div> */}
+            <Button className="w-full mt-4 uppercase">
+              prendre rendez-vous
+            </Button>
+            {/* <AvailableSlotsList
+              availabilities={doctor.availabilities}
+              doctorId={doctor.id}
+            /> */}
+            {/* </div> */}
           </div>
         </div>
-      </Link>
-      <div className="pt-3 border-t border-gray-400 ">
-        <h3 className="flex gap-4 justify-between items-center">
-          <span>Fri, Apr 25</span>$46 $36 with Sesame Plus
-        </h3>
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          {timeStamps.map((item, i) => (
-            <Link
-              className="bg-blue-200 rounded-md px-2 text-sm py-1 flex  justify-center"
-              key={i}
-              href="#"
-            >
-              {item.time} {item.periode}
-            </Link>
-          ))}
-          <Link
-            className="text-blue-500 text-center border-blue-400 border rounded-md  text-[0.7rem]"
-            href="#"
-          >
-            Afficher plus...
-          </Link>
+
+        {/* Right side: available appointments */}
+        <div className="md:col-span-5">
+          <p className="text-sm text-muted-foreground mb-2 font-medium">
+            Prochaines disponibilités :
+          </p>
+          {doctor.availabilities?.length ? (
+            <AvailabilityCalendar availabilities={doctor.availabilities} />
+          ) : (
+            <p className="text-sm italic text-gray-400">Aucune disponibilité</p>
+          )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

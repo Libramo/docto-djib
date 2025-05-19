@@ -102,19 +102,7 @@ export const sidebarItems: SidebarItem[] = [
     roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
     icon: MdPersonOutline,
   },
-  {
-    label: "Paramètres",
-    href: "/settings",
-    roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
-    icon: MdSettings,
-  },
 
-  {
-    label: "Trouver un médecin",
-    href: "/find-doctor",
-    roles: [UserRole.USER],
-    icon: MdSearch,
-  },
   {
     label: "Mes prescriptions",
     href: "/prescriptions",
@@ -132,6 +120,12 @@ export const sidebarItems: SidebarItem[] = [
     href: "/messages",
     roles: [UserRole.USER],
     icon: MdChat,
+  },
+  {
+    label: "Paramètres",
+    href: "/settings",
+    roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
+    icon: MdSettings,
   },
   {
     label: "Support",

@@ -60,6 +60,8 @@ model User {
   isVerfied         Boolean           @default(false)
   token             Int
   doctorSpecialties DoctorSpecialty[] // 👈 Explicit join table
+  availabilities    Availability[] // 👈 Ajout de la relation ici
+  adress            String?
 
   employmentStatusId String?
   employmentStatus   EmploymentStatus? @relation(fields: [employmentStatusId], references: [id])
@@ -92,4 +94,15 @@ model EmploymentStatus {
   name String @unique
 
   users User[]
+}
+
+model Availability {
+  id       String   @id @default(uuid())
+  doctorId String
+  doctor   User     @relation(fields: [doctorId], references: [id])
+  dateTime DateTime
+  isBooked Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

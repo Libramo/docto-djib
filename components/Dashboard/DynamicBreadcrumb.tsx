@@ -15,8 +15,6 @@ import React from "react";
 export default function DynamicBreadcrumb() {
   const pathname = usePathname();
 
-  console.log("LOOOOOOOOOOOOOOOOOO", pathname);
-
   const segments = pathname.split("/").filter(Boolean);
 
   return (

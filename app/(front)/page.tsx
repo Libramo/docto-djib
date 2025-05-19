@@ -7,10 +7,10 @@ export default function Home() {
   return (
     <section>
       <Hero />
-      <Brands />
-      <TabbedSection />
-      <DoctorList />
-      <DoctorList className="bg-pink-100 py-8 lg:py-24" isInPerson />
+      {/* <Brands /> */}
+      {/* <TabbedSection /> */}
+      {/* <DoctorList /> */}
+      {/* <DoctorList className="bg-pink-100 py-8 lg:py-24" isInPerson /> */}
     </section>
   );
 }

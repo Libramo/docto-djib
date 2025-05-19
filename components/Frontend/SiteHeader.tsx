@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getInitials } from "@/lib/utils";
 
 export function SiteHeader({ session }: { session: Session | null }) {
   const user = session?.user;
@@ -58,7 +59,7 @@ export function SiteHeader({ session }: { session: Session | null }) {
                 </div>
 
                 <Button asChild variant="outline" size="default">
-                  <Link href="/login">
+                  <Link href="/authenticate">
                     <LogInIcon className="h-4 w-4" />
                     <span className="sr-only">Se connecter</span>
                     <span>Se connecter</span>
@@ -66,25 +67,20 @@ export function SiteHeader({ session }: { session: Session | null }) {
                 </Button>
               </>
             ) : (
-              // <Avatar>
-              //   <AvatarImage src={user.image ?? ""} />
-              //   <AvatarFallback>
-              //     {user.name
-              //       ?.split(" ")
-              //       .map((n) => n[0])
-              //       .join("")
-              //       .toUpperCase()}
-              //   </AvatarFallback>
-              // </Avatar>
-
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none focus:ring-[2px] focus:ring-offset-2 focus:ring-primary rounded-full">
                   <Avatar>
-                    <AvatarFallback></AvatarFallback>
+                    <AvatarFallback>
+                      {getInitials(user.name as string)}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+
+                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                    <p className="text-xs">{user.email}</p>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                     <User className="h-4 w-4" /> Tableau de bord
@@ -94,7 +90,7 @@ export function SiteHeader({ session }: { session: Session | null }) {
                     className="text-destructive"
                     onClick={() => signOut()}
                   >
-                    <LogOut className="h-4 w-4" /> Logout
+                    <LogOut className="h-4 w-4" /> Se deconnecter
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

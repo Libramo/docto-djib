@@ -162,7 +162,7 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            className={cn("mt-4 w-full")}
+            className={cn("mt-4 w-full", "dark:text-gray-200")}
             disabled={isLoading}
           >
             {isLoading && (

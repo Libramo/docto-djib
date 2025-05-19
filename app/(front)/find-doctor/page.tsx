@@ -1,6 +1,13 @@
 // app/find-doctor/page.tsx
 // import DoctorCard from "@/components/DoctorCard";
+import { fetchDoctors } from "@/actions/doctor";
+import DoctorCard from "@/components/DoctorCard";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/lib/db";
+import { redirect } from "next/navigation";
 
 interface Props {
   searchParams: Promise<{ query?: string | string[] }>;
@@ -10,54 +17,69 @@ export default async function FindDoctorPage({ searchParams }: Props) {
   const params = await searchParams;
   const query = Array.isArray(params.query) ? params.query[0] : params.query;
 
-  try {
-    const doctors = await prisma.user.findMany({
-      where: {
-        role: "DOCTOR",
-        doctorSpecialties: {
-          some: {
-            specialty: {
-              name: {
-                contains: query,
-                mode: "insensitive",
-              },
-            },
-          },
-        },
-      },
-      include: {
-        doctorSpecialties: {
-          include: {
-            specialty: true,
-          },
-        },
-      },
-    });
-
-    return (
-      <div className="p-4">
-        <h2 className="text-2xl font-semibold mb-4">
-          {/* Résultats pour « {query} » */}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {doctors.length > 0 ? (
-            doctors.map((doctor) => (
-              //   <DoctorCard key={doctor.id} doctor={doctor} />
-              <div key={doctor.id}>{doctor.name}</div>
-            ))
-          ) : (
-            <p>Aucun médecin trouvé.</p>
-          )}
-        </div>
-      </div>
-    );
-  } catch (error) {
-    console.error("Erreur lors de la récupération des médecins :", error);
-    return (
-      <div className="p-4 text-red-600">
-        Une erreur est survenue lors de la recherche. Veuillez réessayer plus
-        tard.
-      </div>
-    );
+  if (!query || query.trim() === "") {
+    redirect("/");
   }
+  const results = await fetchDoctors(query);
+
+  return (
+    <div className="flex flex-col min-h-screen w-full">
+      <main className="flex flex-col flex-grow">
+        <div className="flex flex-col items-center flex-grow">
+          <div className="flex gap-16 max-w-[1308px] w-full px-8 py-16 mx-auto justify-between">
+            {/* Zone de contenu principal */}
+            <Card className="flex-1 max-w-4xl">
+              <CardContent className="space-y-8">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    {`${results.length} ${results.length === 1 ? "résultat" : "résultats"}`}
+                  </p>
+                  <h1 className="text-xl font-semibold break-words leading-relaxed">
+                    Résultats de la recherche pour « {query} »
+                  </h1>
+                </div>
+
+                {results.length > 0 ? (
+                  <div className="space-y-6">
+                    {results.map((doctor) => (
+                      <DoctorCard key={doctor.id} doctor={doctor} />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground">
+                    Aucun médecin trouvé pour « {query} ».
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Sidebar */}
+            <Card className="hidden lg:flex flex-col w-[320px] h-[75vh] sticky top-[104px] p-4">
+              <CardContent className="text-muted-foreground">
+                Contenu du panneau latéral
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }
+
+// {results.length > 0 ? (
+//           results.map((res) => (
+//             <div key={res.id} className="border p-4 rounded-lg">
+//               <h3 className="font-bold">{res.name}</h3>
+//               {res.doctorSpecialties?.length > 0 && (
+//                 <p className="text-sm text-gray-600">
+//                   Specialties:{" "}
+//                   {res.doctorSpecialties
+//                     .map((s) => s.specialty.name)
+//                     .join(", ")}
+//                 </p>
+//               )}
+//             </div>
+//           ))
+//         ) : (
+//           <p>No doctors found{query && ` for "${query}"`}.</p>
+//         )}

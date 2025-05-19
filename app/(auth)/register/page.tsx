@@ -11,6 +11,7 @@ const RegisterPage = async ({
 }) => {
   const specialties = await getSpecialties();
   const { role } = await searchParams;
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left: Registration Form */}

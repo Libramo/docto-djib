@@ -24,7 +24,7 @@ import { UserRole } from "@prisma/client";
 // import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { useRouter } from "next/navigation";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaStethoscope } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 import CustomRadioGroup from "../CustomRadioGroup";
 import {
@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { siteConfig } from "@/config/site";
 
 // import { useSearchParams } from "next/navigation";
 

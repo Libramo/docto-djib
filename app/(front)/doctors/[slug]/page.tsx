@@ -1,5 +1,5 @@
 import { DoctorDetails } from "@/components/DoctorDetails";
-import FixedBookButton from "@/components/FixedBookButton";
+// import FixedBookButton from "@/components/FixedBookButton";
 // import { Button } from "@/components/ui/button";
 // import { Plus } from "lucide-react";
 import Image from "next/image";
@@ -33,9 +33,7 @@ const DoctorsPage = () => {
         </div>
       </div>
 
-      <div>
-        <FixedBookButton />
-      </div>
+      <div>{/* <FixedBookButton /> */}</div>
     </div>
   );
 };

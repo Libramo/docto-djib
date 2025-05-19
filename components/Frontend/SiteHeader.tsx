@@ -88,7 +88,7 @@ export function SiteHeader({ session }: { session: Session | null }) {
 
                   <DropdownMenuItem
                     className="text-destructive"
-                    onClick={() => signOut()}
+                    onClick={() => signOut({ redirectTo: "/" })}
                   >
                     <LogOut className="h-4 w-4" /> Se deconnecter
                   </DropdownMenuItem>

@@ -25,6 +25,7 @@ import {
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { getInitials } from "@/lib/utils";
+import { toast } from "react-toastify";
 
 export function SiteHeader({ session }: { session: Session | null }) {
   const user = session?.user;
@@ -88,7 +89,12 @@ export function SiteHeader({ session }: { session: Session | null }) {
 
                   <DropdownMenuItem
                     className="text-destructive"
-                    onClick={async () => await signOut({ redirectTo: "/" })}
+                    onClick={() => {
+                      signOut();
+                      toast("you have been succeflly logged out", {
+                        position: "top-center",
+                      });
+                    }}
                   >
                     <LogOut className="h-4 w-4" /> Se deconnecter
                   </DropdownMenuItem>

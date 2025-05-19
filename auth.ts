@@ -14,6 +14,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
   },
   pages: {
     signIn: "/login",
+    signOut: "/",
   },
   providers: [
     Credentials({

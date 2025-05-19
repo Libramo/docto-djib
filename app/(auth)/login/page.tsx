@@ -23,7 +23,7 @@ const LoginPage = async () => {
         <LoginForm />
       </div>
 
-      <div className="hidden lg:block sticky top-0 h-screen bg-red-500">
+      <div className="hidden lg:block sticky top-0 h-screen">
         <Image
           src="/doctor1.jpg"
           alt="Image du docteur"

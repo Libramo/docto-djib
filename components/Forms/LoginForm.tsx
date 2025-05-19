@@ -58,10 +58,12 @@ export function LoginForm() {
     try {
       setIsLoading(true);
       console.log("Attempting to sign in with credentials:", values);
+
       const loginData = await signIn("credentials", {
         ...values,
         redirect: false,
       });
+
       console.log("SignIn response:", loginData);
       if (loginData?.error) {
         setIsLoading(false);

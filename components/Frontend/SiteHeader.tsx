@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link";
 
+import Link from "next/link";
 // import { siteConfig } from "@/config/site";
 
 // import { Icons } from "../Icons";
@@ -88,7 +88,7 @@ export function SiteHeader({ session }: { session: Session | null }) {
 
                   <DropdownMenuItem
                     className="text-destructive"
-                    onClick={() => signOut({ redirectTo: "/" })}
+                    onClick={async () => await signOut({ redirectTo: "/" })}
                   >
                     <LogOut className="h-4 w-4" /> Se deconnecter
                   </DropdownMenuItem>

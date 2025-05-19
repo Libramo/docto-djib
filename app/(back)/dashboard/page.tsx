@@ -1,6 +1,3 @@
-// import { AppSidebar } from "@/components/Dashboard/AppSidebar";
-// import DynamicBreadcrumb from "@/components/Dashboard/DynamicBreadcrumb";
-// import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,

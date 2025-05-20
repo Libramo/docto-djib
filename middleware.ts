@@ -10,6 +10,8 @@ export async function middleware(request: NextRequest) {
 
   console.log("request", request);
 
+  console.log("secret", secret);
+
   console.log("Token", token);
 
   // If user is not authenticated

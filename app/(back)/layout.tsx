@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
-import { IdleLogoutWrapper } from "@/components/providers/IdleLogoutWrapper";
 import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 

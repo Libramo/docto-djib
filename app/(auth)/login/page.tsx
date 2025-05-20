@@ -5,11 +5,11 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const LoginPage = async () => {
-  // const session = await auth();
+  const session = await auth();
 
-  // if (session?.user) {
-  //   redirect("/dashboard"); // if session exists, redirect to dashboard
-  // }
+  if (session?.user) {
+    redirect("/dashboard"); // if session exists, redirect to dashboard
+  }
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2">

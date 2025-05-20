@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./lib/db";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { addHours, addMinutes } from "date-fns";
 
 export const { auth, handlers, signOut, signIn } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -102,8 +101,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
         token.role = dbUser.role;
       }
 
-      const expireDate = addMinutes(new Date(), 1); // expires in 1 hour
-      token.exp = Math.floor(expireDate.getTime() / 1000); // must be in seconds
+      console.log("SUUUUUUUUUUUUUUUUUUUUUU", token);
 
       return token;
     },

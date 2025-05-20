@@ -8,9 +8,14 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: secret });
   const { pathname } = request.nextUrl;
 
+  console.log("request", request);
+
+  console.log("Token", token);
+
   // If user is not authenticated
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const res = NextResponse.redirect(new URL("/login", request.url));
+    return res;
   }
 
   // if (!token && pathname !== "/login") {
@@ -21,6 +26,8 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/dashboard/admin") && token?.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/unauthorized", request.url));
   }
+
+  console.log("AAAAAAAAAAAAA", NextResponse.next());
 
   return NextResponse.next();
 }

@@ -85,6 +85,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
       },
     }),
   ],
+
   callbacks: {
     jwt: async ({ token, user }) => {
       const dbUser = await prisma.user.findFirst({

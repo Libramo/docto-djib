@@ -31,17 +31,8 @@ export const maskEmail = (email: string): string => {
   return `${maskedLocal}@${maskedDomain}.${domainExtension}`;
 };
 
-export function getInitials(fullname: string): string {
-  if (!fullname?.trim()) return ""; // Handle empty/null input
-
-  const names = fullname.trim().split(/\s+/); // Split by any whitespace
-  let initials = "";
-
-  // Always take first letter of first name
-  if (names[0]) initials += names[0][0];
-
-  // Take first letter of last name if exists
-  if (names.length > 1) initials += names[names.length - 1][0];
-
-  return initials.toUpperCase();
+export function getInitials(fullName: string): string {
+  const names = fullName.trim().split(/\s+/);
+  const firstTwo = names.slice(0, 2);
+  return firstTwo.map((name) => name[0].toUpperCase()).join("");
 }

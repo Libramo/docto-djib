@@ -62,7 +62,7 @@ export function LoginForm() {
       const loginData = await signIn("credentials", {
         ...values,
         redirect: false,
-        callbackUrl: "/dashboard",
+        redirectTo: "/dashboard",
       });
 
       console.log("SignIn response:", loginData);
@@ -76,7 +76,8 @@ export function LoginForm() {
         setShowNotification(false);
         form.reset();
         setIsLoading(false);
-        toast.success("Login Successful");
+        toast.success("Login Successful", { position: "top-center" });
+        console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", loginData.url);
         router.push("/dashboard");
       }
     } catch (error) {

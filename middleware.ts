@@ -6,11 +6,14 @@ const secret = process.env.AUTH_SECRET; // same as your NextAuth secret
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: secret });
+
   const { pathname } = request.nextUrl;
 
   console.log("request", request);
 
   console.log("secret", secret);
+
+  console.log("cookies", request.cookies.getAll());
 
   console.log("Token", token);
 

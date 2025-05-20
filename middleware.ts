@@ -9,13 +9,14 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // If user is not authenticated
-  // if (!token) {
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // if (!token && pathname !== "/login") {
   //   return NextResponse.redirect(new URL("/login", request.url));
   // }
 
-  if (!token && pathname !== "/login") {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
   // If trying to access /dashboard/admin but user is NOT admin
   if (pathname.startsWith("/dashboard/admin") && token?.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/unauthorized", request.url));
@@ -24,13 +25,13 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-// export const config = {
-//   matcher: ["/dashboard/:path*"],
-// };
-
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/((?!api|_next|favicon.ico|login|unauthorized).*)",
-  ],
+  matcher: ["/dashboard/:path*"],
 };
+
+// export const config = {
+//   matcher: [
+//     "/dashboard/:path*",
+//     "/((?!api|_next|favicon.ico|login|unauthorized).*)",
+//   ],
+// };

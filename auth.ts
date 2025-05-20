@@ -90,6 +90,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
       const dbUser = await prisma.user.findFirst({
         where: { email: token?.email ?? "" },
       });
+
       if (!dbUser) {
         token.id = user!.id as string;
         // return token;

@@ -1,5 +1,4 @@
 import { ModeSwitcher } from "@/components/Frontend/ModeSwitcher";
-import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
 

@@ -62,9 +62,11 @@ export function LoginForm() {
       const loginData = await signIn("credentials", {
         ...values,
         redirect: false,
+        callbackUrl: "/dashboard",
       });
 
       console.log("SignIn response:", loginData);
+
       if (loginData?.error) {
         setIsLoading(false);
         toast.error("Sign-in error: Check your credentials");

@@ -14,7 +14,6 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
   },
   pages: {
     signIn: "/login",
-    signOut: "/",
   },
   providers: [
     Credentials({
@@ -49,7 +48,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
 
           if (!existingUser) {
             console.log("No user found");
-            throw { error: "No user found", status: 401 };
+            throw new Error("No user found");
           }
 
           console.log("Pass 2 Checked");
@@ -65,7 +64,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
           }
           if (!passwordMatch) {
             console.log("Password incorrect");
-            throw { error: "Password Incorrect", status: 401 };
+            throw new Error("Password Incorrect");
           }
           console.log("Pass 3 Checked");
           const user = {
@@ -81,7 +80,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
         } catch (error) {
           console.log("aLL Failed");
           console.log(error);
-          throw { error: "Something went wrong", status: 401 };
+          throw new Error("Something went wrong");
         }
       },
     }),

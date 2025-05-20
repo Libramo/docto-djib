@@ -78,6 +78,7 @@ export function LoginForm() {
         setIsLoading(false);
         toast.success("Login Successful", { position: "top-center" });
         console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", loginData.url);
+        // router.refresh();
         router.push("/dashboard");
       }
     } catch (error) {

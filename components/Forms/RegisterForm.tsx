@@ -34,7 +34,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { siteConfig } from "@/config/site";
 
 // import { useSearchParams } from "next/navigation";
 

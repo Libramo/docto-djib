@@ -2,8 +2,14 @@
 import EmailTemplate from "@/components/Emails/EmailTemplate";
 import { prisma } from "@/lib/db";
 import { generateToken } from "@/lib/utils";
-import { RegisterFormValues } from "@/validations/zodSchemas";
+import { createClient } from "@/utils/supabase/server";
+import {
+  ProfileFormValues,
+  RegisterFormValues,
+} from "@/validations/zodSchemas";
+import { SupabaseClient } from "@supabase/supabase-js";
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 import { Resend } from "resend";
 
 export async function createUser(formData: RegisterFormValues) {
@@ -156,4 +162,38 @@ export async function updateUserById(userId: string) {
       console.log(error);
     }
   }
+}
+
+export async function updateUserProfile(
+  userId: string,
+  data: ProfileFormValues
+) {
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      ...data,
+      dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : undefined, // on ignore la mise à jour si vide
+    },
+  });
+
+  revalidatePath("/profile");
+}
+
+export async function uploadAvatar(userId: string, file: File) {
+  const filePath = `/patients/${userId}.png`;
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.storage
+    .from("avatar")
+    .upload(filePath, file, {
+      upsert: true, // overwrite if exists
+      contentType: file.type,
+    });
+
+  if (error) throw error;
+
+  // Get public URL (or use signed URL if private)
+  const { data } = supabase.storage.from("avatar").getPublicUrl(filePath);
+  return data.publicUrl;
 }

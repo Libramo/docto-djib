@@ -46,12 +46,19 @@ enum UserRole {
   DOCTOR
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 model User {
   id                String            @id @default(uuid())
   name              String?
   email             String?           @unique
   phone             String?
   emailVerified     DateTime?
+  gender            Gender?
+  dateOfBirth       DateTime?
   image             String?
   role              UserRole          @default(USER)
   password          String
@@ -61,10 +68,18 @@ model User {
   token             Int
   doctorSpecialties DoctorSpecialty[] // 👈 Explicit join table
   availabilities    Availability[] // 👈 Ajout de la relation ici
-  adress            String?
+  address           String?
 
   employmentStatusId String?
   employmentStatus   EmploymentStatus? @relation(fields: [employmentStatusId], references: [id])
+
+  doctorPrescriptions  Prescription[] @relation("DoctorPrescriptions")
+  patientPrescriptions Prescription[] @relation("PatientPrescriptions")
+
+  consultationsAsPatient Consultation[] @relation("ConsultationPatient")
+  consultationsAsDoctor  Consultation[] @relation("ConsultationDoctor")
+
+  medicalHistories MedicalHistory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -97,12 +112,64 @@ model EmploymentStatus {
 }
 
 model Availability {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
+  title    String
   doctorId String
-  doctor   User     @relation(fields: [doctorId], references: [id])
-  dateTime DateTime
-  isBooked Boolean  @default(false)
+  doctor   User   @relation(fields: [doctorId], references: [id])
+
+  startDate DateTime
+  endDate   DateTime
+  isBooked  Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Prescription {
+  id           String   @id @default(uuid())
+  patientId    String
+  doctorId     String
+  doctor       User     @relation("DoctorPrescriptions", fields: [doctorId], references: [id])
+  patient      User     @relation("PatientPrescriptions", fields: [patientId], references: [id])
+  pdfUrl       String
+  durationDays Int
+  createdAt    DateTime @default(now())
+}
+
+model MedicalHistory {
+  id        String   @id @default(uuid())
+  patientId String
+  patient   User     @relation(fields: [patientId], references: [id])
+  condition String
+  notes     String?
+  date      DateTime
+  documents File[] // fichiers attachés (PDF, images, etc.)
+
+  createdAt DateTime @default(now())
+}
+
+model Consultation {
+  id        String   @id @default(uuid())
+  patientId String
+  doctorId  String
+  date      DateTime
+  notes     String?
+  documents File[]
+
+  patient User @relation("ConsultationPatient", fields: [patientId], references: [id])
+  doctor  User @relation("ConsultationDoctor", fields: [doctorId], references: [id])
+}
+
+model File {
+  id         String   @id @default(uuid())
+  url        String
+  name       String
+  type       String // "pdf", "image", ...
+  uploadedAt DateTime @default(now())
+
+  MedicalHistory   MedicalHistory? @relation(fields: [medicalHistoryId], references: [id])
+  medicalHistoryId String?
+
+  Consultation   Consultation? @relation(fields: [consultationId], references: [id])
+  consultationId String?
 }

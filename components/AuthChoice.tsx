@@ -16,7 +16,7 @@ const AuthChoice = () => {
         <div>
           <p className="text-sm font-medium mb-2">
             Nouveau sur{" "}
-            <span className="hidden font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+            <span className="font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
               {siteConfig.name} ?
             </span>
           </p>
@@ -28,7 +28,7 @@ const AuthChoice = () => {
         <div>
           <p className="text-sm font-medium mb-2">
             J&apos;ai déjà un compte{" "}
-            <span className="hidden font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+            <span className="font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
               {siteConfig.name}
             </span>
           </p>

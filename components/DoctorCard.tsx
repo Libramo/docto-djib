@@ -27,14 +27,14 @@ interface Props {
 
 const DoctorCard = ({ doctor }: Props) => {
   const isAvailable = doctor.availabilities?.some(
-    (a) => new Date(a.dateTime) > new Date() && !a.isBooked
+    (a) => new Date(a.startDate) > new Date() && !a.isBooked
   );
 
   return (
     <Card key={doctor.id} className="border rounded-lg shadow-sm p-6">
       <div className="grid md:grid-cols-8 gap-6">
         {/* Left side: Image, name, specialty, address, status */}
-        <div className="md:col-span-3 space-y-2">
+        <div className="md:col-span-3 flex flex-col space-y-2">
           <div className="flex items-center gap-2">
             <Avatar className="w-8 h-8">
               <AvatarImage
@@ -52,19 +52,15 @@ const DoctorCard = ({ doctor }: Props) => {
             </p>
           )}
           <div className="text-sm text-muted-foreground mt-2 space-y-1">
-            {doctor.adress && <p>{doctor.adress}</p>}
+            {doctor.address && <p>{doctor.address}</p>}
             <Badge variant={isAvailable ? "default" : "outline"}>
               {isAvailable ? "Disponible" : "Indisponible"}
             </Badge>
-            {/* <div> */}
-            <Button className="w-full mt-4 uppercase">
+          </div>
+          <div className="mt-auto">
+            <Button className="w-full mt-auto uppercase">
               prendre rendez-vous
             </Button>
-            {/* <AvailableSlotsList
-              availabilities={doctor.availabilities}
-              doctorId={doctor.id}
-            /> */}
-            {/* </div> */}
           </div>
         </div>
 

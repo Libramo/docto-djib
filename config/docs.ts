@@ -1,11 +1,14 @@
+import { ROUTES } from "@/lib/constants";
 import { MainNavItem, SidebarNavItem } from "@/types/nav";
 import { UserRole } from "@prisma/client";
 import { IconType } from "react-icons/lib";
 import {
+  MdAccessTime,
   MdAdminPanelSettings,
   MdAssignment,
   MdCalendarToday,
   MdChat,
+  MdEventAvailable,
   MdHelpOutline,
   MdLocalPharmacy,
   MdOutlineDashboard,
@@ -72,64 +75,88 @@ export const docsConfig: DocsConfig = {
 };
 
 export const sidebarItems: SidebarItem[] = [
+  // Accessible à tous
   {
     label: "Tableau de bord",
-    href: "/dashboard",
+    href: ROUTES.dashboard,
     roles: [UserRole.ADMIN, UserRole.DOCTOR, UserRole.USER],
     icon: MdOutlineDashboard,
   },
+
+  // ADMIN uniquement
   {
     label: "Panneau Admin",
-    href: "/admin/dashboard",
+    href: ROUTES.adminDashboard,
     roles: [UserRole.ADMIN],
-    icon: MdAdminPanelSettings,
+    icon: MdOutlineDashboard,
   },
+
+  // DOCTOR uniquement
   {
     label: "Mes patients",
-    href: "/doctor/patients",
+    href: ROUTES.doctor.patients,
     roles: [UserRole.DOCTOR],
     icon: MdPeopleOutline,
   },
   {
-    label: "Rendez-vous",
-    href: "/doctor/appointments",
+    label: "Mes rendez-vous",
+    href: ROUTES.doctor.appointments,
     roles: [UserRole.DOCTOR],
     icon: MdCalendarToday,
   },
   {
-    label: "Mon profil",
-    href: "/profile",
-    roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
-    icon: MdPersonOutline,
-  },
-
-  {
-    label: "Mes prescriptions",
-    href: "/prescriptions",
-    roles: [UserRole.USER],
-    icon: MdLocalPharmacy,
-  },
-  {
-    label: "Historique médical",
-    href: "/medical-history",
-    roles: [UserRole.USER],
-    icon: MdAssignment,
+    label: "Mes disponibilités",
+    href: ROUTES.doctor.availabilities,
+    roles: [UserRole.DOCTOR],
+    icon: MdEventAvailable,
   },
   {
     label: "Messages",
-    href: "/messages",
+    href: ROUTES.user.messages, // Assuming same route applies
+    roles: [UserRole.DOCTOR],
+    icon: MdChat,
+  },
+
+  // USER uniquement
+  {
+    label: "Mes prescriptions",
+    href: ROUTES.user.prescriptions,
+    roles: [UserRole.USER],
+    icon: MdLocalPharmacy,
+  },
+
+  {
+    label: "Historique médical",
+    href: ROUTES.user.medicalHistory,
+    roles: [UserRole.USER],
+    icon: MdAssignment,
+  },
+
+  {
+    label: "Messages",
+    href: ROUTES.user.messages,
     roles: [UserRole.USER],
     icon: MdChat,
   },
+
+  // Tous rôles
   {
-    label: "Paramètres",
-    href: "/settings",
-    roles: [UserRole.USER, UserRole.DOCTOR, UserRole.ADMIN],
-    icon: MdSettings,
+    label: "Mon profil",
+    href: ROUTES.profile,
+    roles: [UserRole.ADMIN, UserRole.DOCTOR, UserRole.USER],
+    icon: MdPersonOutline,
   },
   {
+    label: "Paramètres",
+    href: ROUTES.settings,
+    roles: [UserRole.ADMIN, UserRole.DOCTOR, UserRole.USER],
+    icon: MdSettings,
+  },
+
+  // Support - USER uniquement
+  {
     label: "Support",
-    href: "/support",
+    href: ROUTES.support,
     roles: [UserRole.USER],
     icon: MdHelpOutline,
   },

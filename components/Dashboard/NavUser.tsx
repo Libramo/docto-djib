@@ -26,7 +26,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-import { UserId } from "@/types/auth";
 import { User } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { signOut } from "next-auth/react";
@@ -38,7 +37,7 @@ export function NavUser({
   type = "button",
 }: {
   user: User & {
-    id: UserId;
+    id: string;
     role: UserRole | null;
   };
   type?: "icon" | "button";

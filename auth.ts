@@ -52,13 +52,13 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
 
           console.log("Pass 2 Checked");
           console.log(existingUser);
-          let passwordMatch: boolean = false;
+          let passwordMatch = false as boolean;
           //Check if Password is correct
           if (existingUser && existingUser.password) {
             // if user exists and password exists
             passwordMatch = await compare(
               credentials.password as string,
-              existingUser.password as string
+              existingUser.password
             );
           }
           if (!passwordMatch) {
@@ -77,7 +77,7 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
           console.log(user);
           return user;
         } catch (error) {
-          console.log("aLL Failed");
+          console.log("All Failed");
           console.log(error);
           throw new Error("Something went wrong");
         }
@@ -101,17 +101,15 @@ export const { auth, handlers, signOut, signIn } = NextAuth({
         token.role = dbUser.role;
       }
 
-      console.log("SUUUUUUUUUUUUUUUUUUUUUU", token);
-
       return token;
     },
 
     session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id;
-        session.user.name = token.name;
+        session.user.name = token.name as string;
         session.user.email = token.email as string;
-        session.user.image = token.picture;
+        session.user.image = token.image as string;
         session.user.role = token.role;
       }
       return session;

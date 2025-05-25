@@ -29,33 +29,29 @@ export function AvailabilityCalendar({
 
   const slotsByDay = weekDates.map((date) => {
     const slots = availabilities.filter((slot) => {
-      const d = new Date(slot.dateTime);
+      const d = new Date(slot.startDate);
       return d.toDateString() === date.toDateString();
     });
 
     return slots.sort(
-      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
   });
 
   const isWeekEmpty = slotsByDay.every((daySlots) => daySlots.length === 0);
 
-  //   const nextSlot = availabilities
-  //     .filter((slot) => new Date(slot.dateTime) > weekDates[6])
-  //     .sort(
-  //       (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
-  //     )[0];
-
   const nextSlot = availabilities
-    .filter((slot) => new Date(slot.dateTime) > weekDates[6]) // after current week
+    .filter((slot) => new Date(slot.startDate) > weekDates[6]) // after current week
     .sort(
-      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     )[0];
 
   const goToNextSlot = () => {
     if (!nextSlot) return;
 
-    const nextSlotDate = new Date(nextSlot.dateTime);
+    const nextSlotDate = new Date(nextSlot.startDate);
     const baseWeekStart = startOfWeek(new Date(), { weekStartsOn: 1 });
     const targetWeekStart = startOfWeek(nextSlotDate, { weekStartsOn: 1 });
 
@@ -92,7 +88,7 @@ export function AvailabilityCalendar({
               <div key={i} className="text-xs text-gray-800">
                 {slots[i] ? (
                   <Button className="py-3">
-                    {format(new Date(slots[i].dateTime), "HH:mm")}
+                    {format(new Date(slots[i].startDate), "HH:mm")}
                   </Button>
                 ) : (
                   <Button variant={"ghost"} disabled>
@@ -116,7 +112,7 @@ export function AvailabilityCalendar({
                 <Eye className="w-4 h-4 text-blue-600" />
                 <p className="text-sm text-blue-600">
                   Prochain RDV le{" "}
-                  {format(new Date(nextSlot.dateTime), "dd MMMM yyyy", {
+                  {format(new Date(nextSlot.startDate), "dd MMMM yyyy", {
                     locale: fr,
                   })}
                 </p>

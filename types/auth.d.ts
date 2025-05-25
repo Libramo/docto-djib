@@ -1,16 +1,19 @@
 import NextAuth from "next-auth";
-import { UserRole } from "@prisma/client";
+import {
+  Availability,
+  UserRole,
+  User as PrismaModelUser,
+} from "@prisma/client";
 import type { User } from "next-auth";
 import "next-auth/jwt";
-type UserId = string;
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id: UserId;
+    id: string;
     role: UserRole;
     name?: string | null;
     email?: string | null;
-    picture?: string;
+    image?: string;
     exp?: number;
   }
 }
@@ -20,9 +23,8 @@ declare module "next-auth" {
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
   interface Session {
-    user: User & {
-      id: UserId;
-      role: UserRole;
+    user: PrismaModelUser & {
+      user: User;
     };
   }
 }

@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { Gender, UserRole, User } from "@prisma/client";
 import { z } from "zod";
 
 const doctorStatuses = ["liberal", "employed"] as const;
@@ -46,6 +46,16 @@ export const loginFormSchema = z.object({
   password: z.string().min(2, { message: "Votre de passe est trop court" }),
 });
 
+export const profileSchema = z.object({
+  name: z.string().min(1, "Nom requis"),
+  email: z.string().email("Email invalide"),
+  phone: z.string().optional(),
+  gender: z.nativeEnum(Gender).optional(),
+  dateOfBirth: z.string().optional(),
+  image: z.string().optional(),
+});
+
 // ✅ Extract types
+export type ProfileFormValues = z.infer<typeof profileSchema>;
 export type RegisterFormValues = z.infer<typeof registerFormSchema>;
 export type LoginFormValues = z.infer<typeof loginFormSchema>;

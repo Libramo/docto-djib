@@ -71,6 +71,7 @@ export function SiteHeader({ session }: { session: Session | null }) {
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none focus:ring-[2px] focus:ring-offset-2 focus:ring-primary rounded-full">
                   <Avatar>
+                    <AvatarImage src={user.image as string} alt="@shadcn" />
                     <AvatarFallback>
                       {getInitials(user.name as string)}
                     </AvatarFallback>
@@ -79,21 +80,38 @@ export function SiteHeader({ session }: { session: Session | null }) {
                 <DropdownMenuContent>
                   <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
 
-                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(`/${user.role.toLowerCase()}/dashboard`)
+                    }
+                  >
                     <p className="text-xs">{user.email}</p>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(`/${user.role.toLowerCase()}/dashboard`)
+                    }
+                  >
                     <User className="h-4 w-4" /> Tableau de bord
                   </DropdownMenuItem>
 
                   <DropdownMenuItem
                     className="text-destructive"
                     onClick={() => {
-                      signOut();
-                      toast("you have been succeflly logged out", {
-                        position: "top-center",
-                      });
+                      try {
+                        signOut();
+                        toast.success(
+                          "Vous avez été deconnecté avec succès 😉",
+                          {
+                            position: "top-center",
+                          }
+                        );
+                      } catch (error) {
+                        toast.error(
+                          "Oh-ooh il s'est passé une erreur. Réessayer plus tard"
+                        );
+                      }
                     }}
                   >
                     <LogOut className="h-4 w-4" /> Se deconnecter

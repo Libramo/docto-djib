@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { ExtendedPrescription } from "@/types/types";
 
 export async function getSpecialties() {
   try {
@@ -55,4 +56,15 @@ export async function fetchDoctors(query?: string) {
     console.error("Error fetching doctors:", error);
     throw error; // Re-throw to handle in the component
   }
+}
+
+export async function getPrescriptions(
+  userId: string
+): Promise<ExtendedPrescription[]> {
+  const prescriptions = await prisma.prescription.findMany({
+    where: { patientId: userId },
+    include: { doctor: true },
+  });
+
+  return prescriptions;
 }

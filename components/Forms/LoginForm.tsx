@@ -15,9 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-// import { FcGoogle } from "react-icons/fc";
 import { loginFormSchema } from "@/validations/zodSchemas";
-// import SubmitButton from "./SubmitButton";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -51,7 +49,7 @@ export function LoginForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(values);
+    // console.log(values);
 
     try {
       setIsLoading(true);

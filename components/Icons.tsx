@@ -87,6 +87,7 @@ export const Icons = {
       />
     </svg>
   ),
+
   pnpm: (props: IconProps) => (
     <svg viewBox="0 0 24 24" {...props}>
       <path
@@ -111,6 +112,7 @@ export const Icons = {
       />
     </svg>
   ),
+
   google: (props: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path
@@ -119,6 +121,7 @@ export const Icons = {
       />
     </svg>
   ),
+
   apple: (props: IconProps) => (
     <svg role="img" viewBox="0 0 24 24" {...props}>
       <path

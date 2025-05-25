@@ -1,4 +1,6 @@
+import { UserRole } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
+import { User } from "next-auth";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -35,4 +37,9 @@ export function getInitials(fullName: string): string {
   const names = fullName.trim().split(/\s+/);
   const firstTwo = names.slice(0, 2);
   return firstTwo.map((name) => name[0].toUpperCase()).join("");
+}
+
+export function capitalizeFirstLetter(str: string): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }

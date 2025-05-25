@@ -17,9 +17,10 @@ export function AvailableSlotsList({
 
   // Filtrer les créneaux disponibles non réservés et futurs
   const futureAvailableSlots = availabilities
-    .filter((slot) => !slot.isBooked && new Date(slot.dateTime) > new Date())
+    .filter((slot) => !slot.isBooked && new Date(slot.startDate) > new Date())
     .sort(
-      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
 
   const handleBook = (slotId: string) => {
@@ -42,7 +43,7 @@ export function AvailableSlotsList({
           className="border p-3 rounded-md shadow-sm flex items-center justify-between"
         >
           <span className="text-sm text-muted-foreground">
-            {new Date(slot.dateTime).toLocaleString("fr-FR", {
+            {new Date(slot.startDate).toLocaleString("fr-FR", {
               weekday: "long",
               day: "2-digit",
               month: "short",

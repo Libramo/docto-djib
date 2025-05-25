@@ -1,20 +1,6 @@
 "use client";
 
 import * as React from "react";
-// import {
-//   AudioWaveform,
-//   BookOpen,
-//   Bot,
-//   Command,
-//   Frame,
-//   GalleryVerticalEnd,
-//   Map,
-//   PieChart,
-//   Settings2,
-//   SquareTerminal,
-// } from "lucide-react";
-
-// import { MdOutlineDashboard, MdOutlineSettings } from "react-icons/md";
 import {
   Sidebar,
   SidebarContent,
@@ -31,25 +17,7 @@ import { UserRole } from "@prisma/client";
 import { sidebarItems } from "@/config/docs";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
-
-// This is sample data.
-// const data = {
-//   navMain: [
-//     {
-//       title: "Dashboard",
-//       url: "/dashboard",
-//       icon: MdOutlineDashboard,
-//       items: [],
-//     },
-
-//     {
-//       title: "Settings",
-//       url: "/dashboard/settings",
-//       icon: MdOutlineSettings,
-//       items: [],
-//     },
-//   ],
-// };
+import { StethoscopeIcon } from "lucide-react";
 
 interface CustomSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userRole: UserRole[]; // or a union like 'admin' | 'user' | etc.
@@ -66,8 +34,13 @@ export function AppSidebar({ userRole, ...props }: CustomSidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className="flex items-center gap-4 justify-center mt-4">
-          <Image src="/globe.svg" alt="" width={20} height={20} />
+        <div className="flex items-center gap-4 justify-center">
+          <StethoscopeIcon
+            className="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text"
+            color="green"
+            height={50}
+            width={50}
+          />
           {state === "expanded" && (
             <Link href={"/"}>
               <span className="hidden font-extrabold tracking-widest lg:inline-block mr-4 items-center gap-2 lg:mr-6 bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">

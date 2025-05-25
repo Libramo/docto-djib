@@ -1,12 +1,5 @@
-import EmailEditor from "@/components/EmailEditor";
 import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 
 const page = () => {

@@ -47,7 +47,7 @@ const messages = {
   agenda: "Agenda",
   date: "Date",
   time: "Heure",
-  event: "Événement",
+  event: "Créneau",
   noEventsInRange: "Aucun événement à afficher.",
   showMore: (total: number) => `+${total} de plus`,
 };
@@ -57,7 +57,7 @@ interface CustomEvent extends Event {
 }
 
 export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
-  const [view, setView] = useState<View>(Views.WEEK);
+  const [view, setView] = useState<View>(Views.AGENDA);
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
@@ -83,6 +83,7 @@ export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
           start: new Date(event.startDate),
           end: new Date(event.endDate),
         }));
+
         setEvents(formattedEvents);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -100,8 +101,6 @@ export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
         newEvent.end,
         doctorId
       );
-
-      console.log("NNNNNNNNNNNNNNNNNNNNNNN", newAvailability);
 
       setEvents([
         ...events,
@@ -125,62 +124,63 @@ export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
   };
 
   return (
-    <div className="flex flex-col px-3 my-3 mx-4 space-y-6">
-      {/* <div className="w-full"> */}
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        views={["week", "day", "agenda"]}
-        view={view}
-        culture="fr"
-        onView={handleOnChangeView}
-        min={new Date(2025, 1, 0, 8, 0, 0)}
-        max={new Date(2025, 1, 0, 17, 0, 0)}
-        messages={messages}
-      />
-      {/* </div> */}
+    <div className="flex flex-col h-screen mx-4 mb-3">
+      <div className="flex-grow">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          views={["week", "day", "agenda"]}
+          view={view}
+          culture="fr"
+          onView={handleOnChangeView}
+          min={new Date(2025, 1, 0, 8, 0, 0)}
+          max={new Date(2025, 1, 0, 17, 0, 0)}
+          messages={messages}
+        />
+      </div>
 
-      {/* <div className="w-full"> */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>Ajouter un créneau</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Ajouter un nouveau créneau</DialogTitle>
-          </DialogHeader>
+      <div className="sticky bottom-0 p-4">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="w-full">Ajouter un créneau</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Ajouter un nouveau créneau</DialogTitle>
+            </DialogHeader>
 
-          <div className="space-y-3">
-            <Input
-              placeholder="Titre"
-              value={newEvent.title}
-              onChange={(e) =>
-                setNewEvent({ ...newEvent, title: e.target.value })
-              }
-            />
-            <Input
-              type="datetime-local"
-              value={newEvent.start.toISOString().slice(0, 16)}
-              onChange={(e) =>
-                setNewEvent({ ...newEvent, start: new Date(e.target.value) })
-              }
-            />
-            <Input
-              type="datetime-local"
-              value={newEvent.end.toISOString().slice(0, 16)}
-              onChange={(e) =>
-                setNewEvent({ ...newEvent, end: new Date(e.target.value) })
-              }
-            />
-            <Button onClick={handleAddEvent} className="w-full">
-              Ajouter
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      {/* </div> */}
+            <div className="space-y-3">
+              <Input
+                placeholder="Titre"
+                value={newEvent.title}
+                required
+                onChange={(e) =>
+                  setNewEvent({ ...newEvent, title: e.target.value })
+                }
+              />
+              <Input
+                type="datetime-local"
+                value={newEvent.start.toISOString().slice(0, 16)}
+                onChange={(e) =>
+                  setNewEvent({ ...newEvent, start: new Date(e.target.value) })
+                }
+              />
+              <Input
+                type="datetime-local"
+                value={newEvent.end.toISOString().slice(0, 16)}
+                onChange={(e) =>
+                  setNewEvent({ ...newEvent, end: new Date(e.target.value) })
+                }
+              />
+              <Button onClick={handleAddEvent} className="w-full">
+                Ajouter
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

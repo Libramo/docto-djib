@@ -87,7 +87,7 @@ export function AvailabilityCalendar({
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="text-xs text-gray-800">
                 {slots[i] ? (
-                  <Button className="py-3">
+                  <Button className="border !px-1 !py-0">
                     {format(new Date(slots[i].startDate), "HH:mm")}
                   </Button>
                 ) : (

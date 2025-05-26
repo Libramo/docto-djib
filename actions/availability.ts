@@ -36,8 +36,6 @@ export async function addAvailability(
   end: Date,
   doctorId: string
 ) {
-  console.log("OOOOOOOOOOOOOOOOOO", title);
-
   try {
     const newAvailability = await prisma.availability.create({
       data: {
@@ -52,5 +50,30 @@ export async function addAvailability(
   } catch (error) {
     console.error("Error adding availability:", error);
     throw new Error("Error adding availability");
+  }
+}
+
+export async function fetchEvents(doctorId: string) {
+  try {
+    // Fetch events from the database using Prisma
+    const events = await prisma.availability.findMany({
+      where: {
+        doctorId: doctorId,
+      },
+    });
+
+    // Map over the events to extract only the required properties
+    const simplifiedEvents = events.map((event) => ({
+      id: event.id,
+      title: event.title,
+      startDate: event.startDate,
+      endDate: event.endDate,
+    }));
+
+    // Return the simplified events
+    return simplifiedEvents;
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    throw new Error("Error fetching events");
   }
 }

@@ -19,8 +19,8 @@ import {
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { format, getDay, parse, startOfWeek } from "date-fns";
 import { fr } from "date-fns/locale";
-import { useState } from "react";
-import { addAvailability } from "@/actions/availability";
+import { useEffect, useState } from "react";
+import { addAvailability, fetchEvents } from "@/actions/availability";
 import { toast } from "react-toastify";
 
 const locales = {
@@ -52,6 +52,10 @@ const messages = {
   showMore: (total: number) => `+${total} de plus`,
 };
 
+interface CustomEvent extends Event {
+  id: string;
+}
+
 export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
   const [view, setView] = useState<View>(Views.WEEK);
 
@@ -59,13 +63,34 @@ export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
     setView(selectedView);
   };
 
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CustomEvent[]>([]);
   const [newEvent, setNewEvent] = useState({
     id: "",
     title: "",
     start: new Date(),
     end: new Date(),
   });
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const fetchedEvents = await fetchEvents(doctorId);
+
+        // Format the events to match the expected structure
+        const formattedEvents = fetchedEvents.map((event) => ({
+          id: event.id,
+          title: event.title,
+          start: new Date(event.startDate),
+          end: new Date(event.endDate),
+        }));
+        setEvents(formattedEvents);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    loadEvents();
+  }, []);
 
   const handleAddEvent = async () => {
     try {
@@ -81,6 +106,7 @@ export const BigCalendarContainer = ({ doctorId }: { doctorId: string }) => {
       setEvents([
         ...events,
         {
+          id: newAvailability.id,
           title: newAvailability.title,
           start: newAvailability.startDate,
           end: newAvailability.endDate,
